@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Найдена вещь — ВерниQR</title><link rel="stylesheet" href="/static/style.css"><script src="/static/report.js" defer></script></head>
+<body><main class="card">
+<p class="brand">ВерниQR{% if demo %} · Пример страницы{% endif %}</p>
+<h1>Найдена вещь<br><span class="item-name">{{ item.name }}</span></h1>
+{% if item.phone or item.tg or item.email %}<section aria-label="Контакты владельца"><h2>Связаться напрямую</h2><div class="contacts">{% if item.phone %}<a href="tel:{{ item.phone }}">Позвонить {{ item.phone }}</a>{% endif %}{% if item.tg %}<a href="https://t.me/{{ item.tg }}" rel="noreferrer">Telegram @{{ item.tg }}</a>{% endif %}{% if item.email %}<a href="{{ item.email | mailto }}">{{ item.email }}</a>{% endif %}</div></section>{% endif %}
+<section id="form-section"><h2>Сообщить о находке</h2><p>Напишите, где находится вещь и как её забрать.</p>
+<form id="report-form" data-item-id="{{ item.id }}" data-token="{{ token }}" data-demo="{{ 'true' if demo else 'false' }}">
+<label for="message">Сообщение <span class="required">обязательно</span></label><textarea id="message" name="message" minlength="10" maxlength="1000" required rows="5" placeholder="Например: рюкзак оставлен у охраны корпуса Б"></textarea><p class="counter"><span id="char-count">0</span> / 1000</p>
+<label for="finder-contact">Ваш контакт <span class="required">по желанию</span></label><input id="finder-contact" name="finder_contact" maxlength="200" autocomplete="off" placeholder="Телефон, @username или email">
+<p class="note">Текст и контакт получит владелец вещи. Если не оставить контакт, ответить вам через сервис он не сможет. Здесь нет двустороннего чата.</p>
+<p id="form-error" class="error" role="alert" hidden></p><button type="submit" id="submit-button">{% if demo %}Проверить пример{% else %}Отправить владельцу{% endif %}</button>
+</form><noscript><p class="error">Для отправки сообщения включите JavaScript в браузере.{% if item.phone or item.tg or item.email %} Можно воспользоваться контактами выше.{% endif %}</p></noscript></section>
+<section id="success-section" role="status" hidden><div class="success-mark" aria-hidden="true">✓</div><h2>Спасибо за помощь!</h2><p id="success-text">Сообщение сохранено для владельца. Если вы оставили контакт, он сможет связаться с вами.</p><p class="note">Можно закрыть эту страницу.</p></section>
+<footer>Бережно возвращаем вещи владельцам</footer>
+</main></body></html>
